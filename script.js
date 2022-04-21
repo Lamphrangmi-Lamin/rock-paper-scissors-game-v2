@@ -1,9 +1,11 @@
+// function generating random value rock/paper/scissor 
 function computerPlay() {
     let choice = ['Rock', 'Paper', 'Scissors'];
     let random = Math.floor(Math.random() * choice.length);
     return choice[random];
 }
 
+//function for one round execution
 function playRound(playerSelection, computerSelection) {
     playerSelection;
     computerSelection;
@@ -39,13 +41,16 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
+// function for prompting the user for an input
 function userPlay() {
     return prompt("Rock/paper/scissors??");
 }
 
+//initializing score values
 let usrScore = 0;
 let computerScore = 0;
 
+// function that will run the game
 function game() {
     for (let i = 0; i < 5; i++) {
         playRound(userPlay(), computerPlay());
@@ -65,9 +70,11 @@ function game() {
     }
 }
 
+// functionn to reset the game
 function reset() {
     usrScore = 0;
     computerScore = 0;
 }
 
+// calling the game() to run
 game();
