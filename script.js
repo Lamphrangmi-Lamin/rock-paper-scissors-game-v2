@@ -67,7 +67,7 @@ for (let i = 0; i < weapons.length; i++) {
 //         }
 //     }
 // }
-
+// aiohfaofih
 // functionn to reset the game
 function reset() {
     usrScore = 0;
