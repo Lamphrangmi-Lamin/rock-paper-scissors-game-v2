@@ -1,84 +1,109 @@
-// function generating random value rock/paper/scissor
-function computerPlay() {
-    let choice = ['Rock', 'Paper', 'Scissors'];
-    let random = Math.floor(Math.random() * choice.length);
-    return choice[random];
+/*
+  Rock Paper Scissors 🚀🔥
+  Concepts covered in this project
+    👉 For loops
+    👉 Dom Manipulation
+    👉 Variables
+    👉 Conditionals (if else if)
+    👉 Template Literals
+    👉 Event Listeners
+    👉 Higher order Function (Math.random())
+*/
+
+const totalScore = {computerScore: 0, playerScore: 0};
+
+// ** getComputerChoice randomly selects between `rock` `paper` `scissors` and returns that string **
+// getComputerChoice() 👉 'Rock'
+// getComputerChoice() 👉 'Scissors'
+function getComputerChoice() {
+    const rpsChoice = ['Rock', 'Paper', 'Scissors']
+    const randomNumber = Math.floor(Math.random() * 3);
+    return rpsChoice[randomNumber];
 }
 
-// initializing score values
-let usrScore = parseInt(0);
-let computerScore = parseInt(0);
+// ** getResult compares playerChoice & computerChoice and returns the score accordingly **
+// human wins - getResult('Rock', 'Scissors') 👉 1
+// human loses - getResult('Scissors', 'Rock') 👉 -1
+// human draws - getResult('Rock', 'Rock') 👉 0
+function getResult(playerChoice, computerChoice) { // return the result of score based on if you won, drew, or lost
+    // All situations where human draws, set `score` to 0
+    let score;
+    if (playerChoice == computerChoice) {
+        score = 0;
 
-const weapons = document.querySelectorAll("button");
-for (let i = 0; i < weapons.length; i++) {
-    weapons[i].addEventListener('click', () => {
-        computerPlay();
-        
-        if (computerPlay() === weapons[i].value) {
-            result.textContent = "It's a tie."
-        } else if (weapons[i].value === 'Rock') {
-            if (computerPlay() === 'Paper') {
-                result.textContent = "You Lose!! Paper Beats Rock";
-                computerScore += 1;
-            } else {
-                result.textContent = "Rock beats Scissors. You Won!!";
-                usrScore += 1;
-            }
-        } else if (weapons[i].value === 'Paper') {
-            if (computerPlay() === 'Rock') {
-                result.textContent = "Paper beats rock. You Won!!";
-                usrScore += 1;
-            } else {
-                result.textContent = "Scissors beats paper. You Lose!!";
-                computerScore += 1;
-            }
-        } else if (weapons[i].value === 'Scissors') {
-            if (computerPlay() === 'Paper') {
-                result.textContent = "Scissors beats paper. You Won!!";
-                usrScore += 1;
-            } else {
-                result.textContent = "Rock beats scissors. You Lose!!";
-                computerScore += 1;
-            }
-        }
-        else {
-            result.textContent = "Wrong Input!";
-        }
-            
-    });
+        // All situations where human wins, set `score` to 1
+        // make sure to use else ifs here
+    } else if (playerChoice == 'Rock' && computerChoice == "Scissors") {
+        score = 1;
+    } else if (playerChoice == "Paper" && computerChoice == "Rock") {
+        score = 1;
+    } else if (playerChoice == 'Scissors' && computerChoice == 'Paper') {
+        score = 1;
+        // Otherwise human loses (aka set score to -1)
+    } else {
+        score = -1;
+    }
+
+
+    // return score
+    return score;
+
 }
 
-// function that will run the game
-// function game() {
-//     for (let i = 0; i < 5; i++) {
-//         playRound(userPlay(), computerPlay());
-//         if (i == 4) {
-//             if (usrScore > computerScore) {
-//                 winner.textContent = `You won the game with a score of ${usrScore}`;
-//             } else if (usrScore == computerScore) {
-//                 winner.textContent = "NOBODY WINS. Everybody has an equal number of scores.";
-//             } else if (usrScore < computerScore) {
-//                 winner.textContent = `Computer is the final winner with a score of ${computerScore}`;
-//             }
-//             userpoints.textContent(usrScore);
-//             computerpoints.textContent(computerScore);
-//         } else {
-//             playRound(userPlay(), computerPlay());
-//         }
-//     }
-// }
-// aiohfaofih
-// functionn to reset the game
-function reset() {
-    usrScore = 0;
-    computerScore = 0;
+// ** showResult updates the DOM to `You Win!` or `You Lose!` or `It's a Draw!` based on the score. Also shows Player Choice vs. Computer Choice**
+function showResult(score, playerChoice, computerChoice) {
+    // Hint: on a score of -1
+    // You should do result.innerText = 'You Lose!'
+    // Don't forget to grab the div with the 'result' id!
+    const resultDiv = document.getElementById('result');
+    const handsDiv = document.getElementById('hands');
+    const playerScoreDiv = document.getElementById('player-score');
+    const computerScoreDiv = document.getElementById('computer-score');
+    if (score == -1) {
+        resultDiv.innerText = 'You Lose';
+    } else if (score == 0) {
+        resultDiv.innerText = "It's a tie!";
+    } else {
+        resultDiv.innerText = 'You Won!';
+    }
+
+    handsDiv.innerText = `👳${playerChoice} VS 🤖${computerChoice}`;
+    playerScoreDiv.innerText = `Your Score: ${totalScore['playerScore']}`;
+    computerScoreDiv.innerText = `Computer Score: ${totalScore['computerScore']}`;
 }
 
-const body = document.querySelector("body");
-body.style.background = "grey";
+// ** Calculate who won and show it on the screen **
+function onClickRPS(playerChoice) {
+    console.log({playerChoice});
+    const computerChoice = getComputerChoice();
+    console.log({computerChoice});
+    const score = getResult(playerChoice,computerChoice);
+    totalScore['playerScore'] += score;
+    console.log({score});
+    console.log(totalScore);
+    showResult(score, playerChoice, computerChoice);
+}
 
 
-const result = document.getElementById('result');
-const winner = document.getElementById('winner');
-const userpoints = document.getElementById('userpoints');
-const computerpoints = document.getElementById('computerpoints');
+// ** Make the RPS buttons actively listen for a click and do something once a click is detected **
+function playGame() { // use querySelector to select all RPS Buttons
+    const rpsButtons = document.querySelectorAll('.rpsButton');
+    rpsButtons.forEach(rpsButton => {
+        rpsButton.onclick = () => onClickRPS(rpsButton.value);
+    })
+
+
+    // * Adds an on click event listener to each RPS button and every time you click it, it calls the onClickRPS function with the RPS button that was last clicked *
+
+    // 1. loop through the buttons using a forEach loop
+    // 2. Add a 'click' event listener to each button
+    // 3. Call the onClickRPS function every time someone clicks
+    // 4. Make sure to pass the currently selected rps button as an argument
+
+
+    // Add a click listener to the end game button that runs the endGame() function on click
+
+}
+
+// ** endGame function clears all the text on the DOM **
+function endGame() {}playGame()
