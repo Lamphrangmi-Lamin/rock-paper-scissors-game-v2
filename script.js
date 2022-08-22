@@ -10,7 +10,10 @@
     👉 Higher order Function (Math.random())
 */
 
-const totalScore = {computerScore: 0, playerScore: 0};
+const totalScore = {
+    computerScore: 0,
+    playerScore: 0
+};
 
 // ** getComputerChoice randomly selects between `rock` `paper` `scissors` and returns that string **
 // getComputerChoice() 👉 'Rock'
@@ -25,7 +28,8 @@ function getComputerChoice() {
 // human wins - getResult('Rock', 'Scissors') 👉 1
 // human loses - getResult('Scissors', 'Rock') 👉 -1
 // human draws - getResult('Rock', 'Rock') 👉 0
-function getResult(playerChoice, computerChoice) { // return the result of score based on if you won, drew, or lost
+function getResult(playerChoice, computerChoice) {
+    // return the result of score based on if you won, drew, or lost
     // All situations where human draws, set `score` to 0
     let score;
     if (playerChoice == computerChoice) {
@@ -58,18 +62,16 @@ function showResult(score, playerChoice, computerChoice) {
     const resultDiv = document.getElementById('result');
     const handsDiv = document.getElementById('hands');
     const playerScoreDiv = document.getElementById('player-score');
-    const computerScoreDiv = document.getElementById('computer-score');
     if (score == -1) {
         resultDiv.innerText = 'You Lose';
     } else if (score == 0) {
         resultDiv.innerText = "It's a tie!";
     } else {
         resultDiv.innerText = 'You Won!';
-    }
-
-    handsDiv.innerText = `👳${playerChoice} VS 🤖${computerChoice}`;
-    playerScoreDiv.innerText = `Your Score: ${totalScore['playerScore']}`;
-    computerScoreDiv.innerText = `Computer Score: ${totalScore['computerScore']}`;
+    } handsDiv.innerText = `👳${playerChoice} VS 🤖${computerChoice}`;
+    playerScoreDiv.innerText = `Your Score: ${
+        totalScore['playerScore']
+    }`;
 }
 
 // ** Calculate who won and show it on the screen **
@@ -77,7 +79,7 @@ function onClickRPS(playerChoice) {
     console.log({playerChoice});
     const computerChoice = getComputerChoice();
     console.log({computerChoice});
-    const score = getResult(playerChoice,computerChoice);
+    const score = getResult(playerChoice, computerChoice);
     totalScore['playerScore'] += score;
     console.log({score});
     console.log(totalScore);
@@ -104,6 +106,18 @@ function playGame() { // use querySelector to select all RPS Buttons
     // Add a click listener to the end game button that runs the endGame() function on click
 
 }
+const endGameButton = document.getElementById('endGameButton');
+endGameButton.onclick = () => endGame();
 
 // ** endGame function clears all the text on the DOM **
-function endGame() {}playGame()
+function endGame() {
+    const resultDiv = document.getElementById('result');
+    const handsDiv = document.getElementById('hands');
+    const playerScoreDiv = document.getElementById('player-score');
+
+    resultDiv.innerText = '';
+    handsDiv.innerText = '';
+    playerScoreDiv.innerText = '';
+}
+
+playGame()
